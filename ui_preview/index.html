@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SurakshaAR UI/UX Live Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-canvas: #EBF0F5;
+      --card-bg: #FFFFFF;
+      --border-color: #D6DFE8;
+      --text-main: #0F172A;
+      --text-muted: #64748B;
+      --primary-orange: #F97316;
+      --primary-orange-hover: #EA580C;
+      --success-green: #10B981;
+      --slate-tag: #64748B;
+      --nav-bg: #FFFFFF;
+      --nav-border: #D6DFE8;
+    }
+
+    [data-theme="dark"] {
+      --bg-canvas: #0F172A;
+      --card-bg: #1E293B;
+      --border-color: #334155;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --primary-orange: #F97316;
+      --primary-orange-hover: #EA580C;
+      --success-green: #10B981;
+      --slate-tag: #64748B;
+      --nav-bg: #1E293B;
+      --nav-border: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: #0B0F19;
+      color: #E2E8F0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .top-controls {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+
+    .theme-btn, .screen-btn {
+      background: #1E293B;
+      color: #F8FAFC;
+      border: 1px solid #334155;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .theme-btn:hover, .screen-btn:hover {
+      background: #334155;
+      border-color: #64748B;
+    }
+
+    .screen-btn.active {
+      background: #F97316;
+      border-color: #F97316;
+      color: white;
+    }
+
+    /* Device Mockup */
+    .device-frame {
+      width: 412px;
+      height: 870px;
+      background: var(--bg-canvas);
+      border-radius: 44px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55), 0 0 0 12px #1E293B, 0 0 0 14px #334155;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Status Bar */
+    .status-bar {
+      height: 38px;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-main);
+      z-index: 10;
+    }
+
+    .app-screen {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 20px 90px 20px;
+      display: none;
+      position: relative;
+    }
+
+    .app-screen.active {
+      display: block;
+    }
+
+    /* Top App Bar */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--text-main);
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      transition: transform 0.15s, background-color 0.2s;
+    }
+
+    .icon-btn:active {
+      transform: scale(0.94);
+    }
+
+    .notif-btn {
+      color: var(--primary-orange);
+    }
+
+    /* Worker Greeting */
+    .greeting-section {
+      margin-bottom: 20px;
+    }
+
+    .greeting-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
+    }
+
+    .worker-id {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Training Progress Card */
+    .progress-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      background: var(--primary-orange);
+    }
+
+    .progress-header {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 8px;
+    }
+
+    .progress-stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+
+    .progress-percentage {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1;
+    }
+
+    .progress-subtitle {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .progress-bar-container {
+      height: 10px;
+      background: #E2E8F0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 78%;
+      background: var(--primary-orange);
+      border-radius: 10px;
+    }
+
+    /* Section Title */
+    .section-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 14px;
+    }
+
+    /* Module Cards */
+    .module-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .module-card:active {
+      transform: scale(0.98);
+    }
+
+    .module-card.fire::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--success-green);
+    }
+
+    .module-card.gas::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--primary-orange);
+    }
+
+    .module-card.machinery::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--slate-tag);
+    }
+
+    .module-icon-box {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .module-icon-box.fire {
+      background: #DCFCE7;
+      color: #10B981;
+    }
+
+    .module-icon-box.gas {
+      background: #FFEDD5;
+      color: #F97316;
+    }
+
+    .module-icon-box.machinery {
+      background: #F1F5F9;
+      color: #64748B;
+    }
+
+    .module-info {
+      flex: 1;
+    }
+
+    .module-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 3px;
+    }
+
+    .module-status {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    /* Pill Badges */
+    .status-pill {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      color: white;
+      text-transform: capitalize;
+    }
+
+    .status-pill.completed {
+      background: var(--success-green);
+    }
+
+    .status-pill.continue {
+      background: var(--primary-orange);
+    }
+
+    .status-pill.locked {
+      background: #64748B;
+    }
+
+    /* My Certificates Banner */
+    .cert-banner-btn {
+      background: var(--primary-orange);
+      border-radius: 16px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: white;
+      text-decoration: none;
+      margin-top: 14px;
+      box-shadow: 0 6px 18px rgba(249, 115, 22, 0.28);
+      cursor: pointer;
+      transition: transform 0.15s, background-color 0.2s;
+    }
+
+    .cert-banner-btn:active {
+      transform: scale(0.98);
+      background: var(--primary-orange-hover);
+    }
+
+    .cert-banner-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .cert-banner-icon {
+      font-size: 22px;
+    }
+
+    .cert-banner-arrow {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    /* Bottom Navigation Bar */
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 72px;
+      background: var(--nav-bg);
+      border-top: 1px solid var(--nav-border);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 10px;
+      z-index: 20;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: color 0.15s;
+    }
+
+    .nav-item .nav-icon {
+      font-size: 20px;
+    }
+
+    .nav-item.active {
+      color: var(--primary-orange);
+      font-weight: 700;
+    }
+
+    /* Side Navigation Drawer Overlay */
+    .drawer-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: 30;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .drawer-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .side-drawer {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 78%;
+      background: var(--card-bg);
+      z-index: 35;
+      transform: translateX(-100%);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 10px 0 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .side-drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      background: var(--primary-orange);
+      padding: 44px 20px 24px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: white;
+    }
+
+    .drawer-avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: white;
+      color: var(--primary-orange);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: 800;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    }
+
+    .drawer-profile-info .name {
+      font-size: 19px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .drawer-profile-info .id {
+      font-size: 13px;
+      color: #FED7AA;
+      font-weight: 600;
+      margin-top: 3px;
+    }
+
+    .drawer-menu {
+      flex: 1;
+      padding: 16px 12px;
+      overflow-y: auto;
+    }
+
+    .drawer-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 16px;
+      border-radius: 12px;
+      color: var(--text-main);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .drawer-item:hover, .drawer-item.active {
+      background: var(--bg-canvas);
+      color: var(--primary-orange);
+    }
+
+    .drawer-item .item-icon {
+      font-size: 18px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .drawer-divider {
+      height: 1px;
+      background: var(--border-color);
+      margin: 12px 14px;
+    }
+
+    .drawer-footer {
+      padding: 16px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* Training Modules Screen */
+    .screen-header-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .screen-header-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .screen-header-subhead {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .module-detail-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    }
+
+    .module-detail-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .module-detail-sub {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .start-btn {
+      width: 100%;
+      background: var(--primary-orange);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 14px;
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.25);
+      transition: background-color 0.2s, transform 0.15s;
+    }
+
+    .start-btn:active {
+      transform: scale(0.98);
+      background: var(--primary-orange-hover);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-controls">
+    <button class="theme-btn" onclick="toggleTheme()">🌓 Toggle Dark/Light Mode</button>
+    <button class="screen-btn active" onclick="showScreen('home')">Home Screen</button>
+    <button class="screen-btn" onclick="showScreen('modules')">Training Modules</button>
+    <button class="screen-btn" onclick="openDrawer()">☰ Open Drawer</button>
+  </div>
+
+  <div class="device-frame" id="deviceFrame">
+    
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <span>09:41</span>
+      <span>📶 5G  🔋 98%</span>
+    </div>
+
+    <!-- Side Drawer Overlay -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+    <div class="side-drawer" id="sideDrawer">
+      <div class="drawer-header">
+        <div class="drawer-avatar">R</div>
+        <div class="drawer-profile-info">
+          <div class="name">Rahul Kumar</div>
+          <div class="id">Worker ID: JH-10284</div>
+        </div>
+      </div>
+      <div class="drawer-menu">
+        <div class="drawer-item active" onclick="showScreen('home'); closeDrawer();">
+          <span class="item-icon">⌂</span> Home
+        </div>
+        <div class="drawer-item" onclick="showScreen('modules'); closeDrawer();">
+          <span class="item-icon">▶</span> Training
+        </div>
+        <div class="drawer-item" onclick="showScreen('home'); closeDrawer();">
+          <span class="item-icon">★</span> Certificates
+        </div>
+        <div class="drawer-item" onclick="closeDrawer();">
+          <span class="item-icon">●</span> Profile
+        </div>
+        <div class="drawer-divider"></div>
+        <div class="drawer-item" onclick="closeDrawer();">
+          <span class="item-icon">▼</span> Offline Training
+        </div>
+        <div class="drawer-item" onclick="closeDrawer();">
+          <span class="item-icon">✦</span> Achievements
+        </div>
+        <div class="drawer-item" onclick="closeDrawer();">
+          <span class="item-icon">⚙</span> Settings
+        </div>
+      </div>
+      <div class="drawer-footer">
+        SURAKSHAAR v1.0.0
+      </div>
+    </div>
+
+    <!-- HOME SCREEN -->
+    <div class="app-screen active" id="screenHome">
+      
+      <!-- Top App Bar -->
+      <div class="app-header">
+        <button class="icon-btn" onclick="openDrawer()" title="Menu">☰</button>
+        <button class="icon-btn notif-btn" title="Notifications">★</button>
+      </div>
+
+      <!-- Greeting -->
+      <div class="greeting-section">
+        <h1 class="greeting-title">Hello, Rahul 👋</h1>
+        <div class="worker-id">Worker ID: JH-10284</div>
+      </div>
+
+      <!-- Progress Card -->
+      <div class="progress-card">
+        <div class="progress-header">Training Progress</div>
+        <div class="progress-stat-row">
+          <div class="progress-percentage">78%</div>
+          <div class="progress-subtitle">2 of 3 modules completed</div>
+        </div>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill"></div>
+        </div>
+      </div>
+
+      <!-- Current Training Section -->
+      <h2 class="section-title">Current Training</h2>
+
+      <!-- Card 1: Fire -->
+      <div class="module-card fire" onclick="showScreen('modules')">
+        <div class="module-icon-box fire">⚡</div>
+        <div class="module-info">
+          <div class="module-name">Fire & Explosion Response</div>
+          <div class="module-status">3/3 Completed</div>
+        </div>
+        <div class="status-pill completed">Completed</div>
+      </div>
+
+      <!-- Card 2: Gas -->
+      <div class="module-card gas" onclick="showScreen('modules')">
+        <div class="module-icon-box gas">♨</div>
+        <div class="module-info">
+          <div class="module-name">Gas Leak & Confined Space</div>
+          <div class="module-status">0/3 Completed</div>
+        </div>
+        <div class="status-pill continue">Continue</div>
+      </div>
+
+      <!-- Card 3: Machinery -->
+      <div class="module-card machinery">
+        <div class="module-icon-box machinery">🔒</div>
+        <div class="module-info">
+          <div class="module-name">Machinery Safety</div>
+          <div class="module-status">Coming Soon</div>
+        </div>
+        <div class="status-pill locked">Locked</div>
+      </div>
+
+      <!-- My Certificates Banner -->
+      <div class="cert-banner-btn" onclick="showScreen('home')">
+        <div class="cert-banner-left">
+          <span class="cert-banner-icon">★</span>
+          <span>My Certificates</span>
+        </div>
+        <span class="cert-banner-arrow">›</span>
+      </div>
+
+    </div>
+
+    <!-- TRAINING MODULES SCREEN -->
+    <div class="app-screen" id="screenModules">
+      
+      <div class="screen-header-bar">
+        <button class="icon-btn" onclick="showScreen('home')" style="width:36px; height:36px; font-size:16px;">←</button>
+        <h2 class="screen-header-title">TRAINING MODULES</h2>
+      </div>
+      <div class="screen-header-subhead">Complete the modules to receive your certificate.</div>
+
+      <!-- Module Detail 1 -->
+      <div class="module-detail-card">
+        <div class="module-detail-title">FIRE & EXPLOSION RESPONSE</div>
+        <div class="module-detail-sub">3 Activities · 3/3 Completed</div>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" style="width: 100%;"></div>
+        </div>
+        <button class="start-btn" onclick="alert('Starting Fire Module AR...')">START TRAINING</button>
+      </div>
+
+      <!-- Module Detail 2 -->
+      <div class="module-detail-card">
+        <div class="module-detail-title">GAS LEAK & CONFINED SPACE</div>
+        <div class="module-detail-sub">3 Activities · 0/3 Completed</div>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+        <button class="start-btn" onclick="alert('Starting Gas Module AR...')">START TRAINING</button>
+      </div>
+
+      <!-- Module Detail 3 -->
+      <div class="module-detail-card" style="opacity: 0.65;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div class="module-detail-title">MACHINERY SAFETY</div>
+          <span>🔒</span>
+        </div>
+        <div class="module-detail-sub">Coming Soon</div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+      <button class="nav-item active" id="navHome" onclick="showScreen('home')">
+        <span class="nav-icon">⌂</span>
+        <span>Home</span>
+      </button>
+      <button class="nav-item" id="navTraining" onclick="showScreen('modules')">
+        <span class="nav-icon">▶</span>
+        <span>Training</span>
+      </button>
+      <button class="nav-item" id="navCert" onclick="showScreen('home')">
+        <span class="nav-icon">★</span>
+        <span>Certificates</span>
+      </button>
+      <button class="nav-item" id="navProfile" onclick="openDrawer()">
+        <span class="nav-icon">●</span>
+        <span>Profile</span>
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    function showScreen(screen) {
+      document.getElementById('screenHome').classList.toggle('active', screen === 'home');
+      document.getElementById('screenModules').classList.toggle('active', screen === 'modules');
+
+      document.getElementById('navHome').classList.toggle('active', screen === 'home');
+      document.getElementById('navTraining').classList.toggle('active', screen === 'modules');
+
+      document.querySelectorAll('.screen-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.innerText.toLowerCase().includes(screen)) btn.classList.add('active');
+      });
+    }
+
+    function openDrawer() {
+      document.getElementById('sideDrawer').classList.add('open');
+      document.getElementById('drawerOverlay').classList.add('open');
+    }
+
+    function closeDrawer() {
+      document.getElementById('sideDrawer').classList.remove('open');
+      document.getElementById('drawerOverlay').classList.remove('open');
+    }
+
+    function toggleTheme() {
+      const frame = document.getElementById('deviceFrame');
+      const current = frame.getAttribute('data-theme');
+      frame.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    }
+  </script>
+</body>
+</html>

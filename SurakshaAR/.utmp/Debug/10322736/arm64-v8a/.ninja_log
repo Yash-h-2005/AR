@@ -1,0 +1,23 @@
+# ninja log v5
+2478	3917	8101620612388978	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	5911320c24f01757
+2	3210	8101620592355148	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	95fca2d349e0e747
+2139	3718	8101620610369407	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	154d71dca5bbd60a
+343	3219	8101620592177729	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	acecaa7e46a37b5c
+708	3222	8101620597872049	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	37c53ea02911f76b
+2839	3349	8101620606752054	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	91dda7370b3ca366
+1076	3224	8101620599756740	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	36bba5cbd7b12ef9
+1437	3226	8101620604840429	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	b15825c841ad1c8f
+1788	3345	8101620606670178	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	eaadb5c3b05cbdb4
+3350	4084	8101620613940859	D:/AR-mining/SurakshaAR/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/10322736/obj/arm64-v8a/libswappywrapper.so	56f4a4f87e76fa49
+3917	4647	8101620619642058	D:/AR-mining/SurakshaAR/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/10322736/obj/arm64-v8a/libgame.so	9fb2003f72f72bc
+14	3822	8104095408983914	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	37c53ea02911f76b
+355	3825	8104095405617815	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	95fca2d349e0e747
+697	3830	8104095405229429	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	eaadb5c3b05cbdb4
+1022	3834	8104095407138005	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	acecaa7e46a37b5c
+3162	4154	8104095415384260	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	91dda7370b3ca366
+1365	4240	8104095416071606	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	b15825c841ad1c8f
+1716	4433	8104095418122083	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	5911320c24f01757
+2074	4785	8104095421645500	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	36bba5cbd7b12ef9
+4155	4995	8104095423328957	D:/AR-mining/SurakshaAR/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/10322736/obj/arm64-v8a/libswappywrapper.so	56f4a4f87e76fa49
+2594	5231	8104095426101455	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	154d71dca5bbd60a
+5232	5942	8104095433195645	D:/AR-mining/SurakshaAR/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/10322736/obj/arm64-v8a/libgame.so	9fb2003f72f72bc

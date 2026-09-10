@@ -1,0 +1,15 @@
+{
+  "name": "surakshaar-admin-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SurakshaAR Industrial Safety Compliance Dashboard & Certificate Verification Portal",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build"
+  }
+}

@@ -1,0 +1,55 @@
+# ==========================================
+# Unity Project .gitignore
+# ==========================================
+
+# Unity generated directories & files
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Aa]sset[Oo]ptimization/
+
+# Unity Gradle / Android builds
+.gradle/
+.idea/
+*.apk
+*.aab
+*.unitypackage
+
+# Visual Studio / VS Code / JetBrains Rider
+.vs/
+.vscode/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.opendb
+*.VC.db
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Firebase & Local Secrets
+google-services.json
+GoogleService-Info.plist
+firebase_credentials.json
+*.p12
+*.keystore
+*.jks
+*.pfx
+secrets/
+.env*
+*.log
+.agents/

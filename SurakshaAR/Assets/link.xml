@@ -1,0 +1,13 @@
+<linker>
+  <assembly fullname="UnityEngine" preserve="all"/>
+  <assembly fullname="UnityEngine.CoreModule" preserve="all"/>
+  <assembly fullname="UnityEngine.UI" preserve="all"/>
+  <assembly fullname="UnityEngine.UIModule" preserve="all"/>
+  <assembly fullname="UnityEngine.TextCoreModule" preserve="all"/>
+  <assembly fullname="UnityEngine.TextCoreTextEngineModule" preserve="all"/>
+  <assembly fullname="UnityEngine.TextCoreFontEngineModule" preserve="all"/>
+  <assembly fullname="UnityEngine.XRModule" preserve="all"/>
+  <assembly fullname="Unity.XR.ARFoundation" preserve="all"/>
+  <assembly fullname="Unity.XR.ARCore" preserve="all"/>
+  <assembly fullname="Unity.XR.ARSubsystems" preserve="all"/>
+</linker>
